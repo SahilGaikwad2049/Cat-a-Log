@@ -14,11 +14,11 @@ app.post('/courses', async function(req,res) {
         course: sub.course,
         present: 0,
         absent: 0,
-        percentage: 0
+        percentage: 0   
     })
 
     res.json({
-        msg: "Course added"
+        idd: course.idd
     })
 })
 

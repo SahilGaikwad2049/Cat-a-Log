@@ -60,7 +60,7 @@ export function DisplayCourse({ courses = [] }) {
       });
       if(resp.ok) {
         setCourseData((prev) => prev.filter((course) => course._id !== courseId));
-      } 
+      }; 
     }
     catch(err) {
       console.error(err);
