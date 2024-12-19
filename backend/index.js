@@ -1,5 +1,4 @@
 const express = require('express')
-const { v4: uuidv4 } = require('uuid');
 const cors = require('cors')
 const { courses } = require('./db')
 const app = express()
@@ -9,17 +8,14 @@ app.use(cors())
 
 app.post('/courses', async function(req,res) {
     const sub = req.body
-    await courses.create({
-        idd: uuidv4(),
+    const course = await courses.create({
         course: sub.course,
         present: 0,
         absent: 0,
         percentage: 0   
     })
 
-    res.json({
-        idd: course.idd
-    })
+    res.json({ course });
 })
 
 app.get('/attendance', async function(req,res) {
