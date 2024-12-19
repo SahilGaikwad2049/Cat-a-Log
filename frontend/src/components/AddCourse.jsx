@@ -1,65 +1,40 @@
 import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 
 export function AddCourse({ setcourses, courses }) {
   const [course, setCourse] = useState("");
 
-  function buttonChange() {
-
+  async function buttonChange() {
     if (course.trim() === "") {
       return;
-    } 
-
+    }
+  
     const newCourse = {
-      idd: uuidv4(),
       course: course,
       present: 0,
       absent: 0,
-      percentage: 0
-    }
+      percentage: 0,
+    };
+  
+    try {
+      const response = await fetch("http://localhost:3000/courses", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newCourse),
+      });
 
-    fetch("http://localhost:3000/courses", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newCourse),
-    })
-    .then((response) => response.json())
-    .then((data) => {
-      newCourse.idd = data.idd
-    //   let newCourses;
-    //   if (courses.length > 0) {
-    //     newCourses = [
-    //       ...courses,
-    //       {
-    //         idd: uuidv4(),
-    //         course: course,
-    //         present: 0,
-    //         absent: 0,
-    //         percentage: 0,
-    //       },
-    //     ];
-    //   } else {
-    //     newCourses = [
-    //       {
-    //         course: course,
-    //         present: 0,
-    //         absent: 0,
-    //         percentage: 0,
-    //       },
-    //     ];
-    //   }
-    //   console.log("hehe", newCourses);
-    //   setcourses(newCourses);
-    //   setCourse("");
-    setcourses([...courses, newCourse]);
-    setCourse("");
-    console.log("hehe2")
-    console.log(newCourse.idd)
-    
-    });
+      const data = await response.json();
+  
+      const savedCourse = data.course;
+      setcourses([...courses, savedCourse]);
+      setCourse("");
+    } 
+    catch (error) {
+      console.error("Error:", error.message);
+    }
   }
+  
 
   return (
     <div>

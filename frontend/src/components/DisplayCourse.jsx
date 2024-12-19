@@ -54,12 +54,13 @@ export function DisplayCourse({ courses = [] }) {
   };
 
   const deleteCourse = async(courseId) => {
+    setCourseData((prev) => prev.filter((course) => course._id !== courseId));
     try {
       const resp = await fetch(`http://localhost:3000/courses/${courseId}`, {
         method: "DELETE",
       });
       if(resp.ok) {
-        setCourseData((prev) => prev.filter((course) => course._id !== courseId));
+        
       }; 
     }
     catch(err) {
@@ -82,7 +83,7 @@ export function DisplayCourse({ courses = [] }) {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {courseData.map((prop) => (
             <div
-              key = {prop.idd || prop._id || Math.random()}
+              key = { prop._id }
               className="flex flex-col bg-gray-100 rounded-lg shadow-md p-4"
             >
               <h2 className="font-semibold text-[22px]">{prop.course}</h2>
